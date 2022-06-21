@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\Size;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -20,5 +23,35 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        // $this->call(CategoryTableSeeder::class);
+        // $this->call(SizeTableSeeder::class);
+        // création des categories
+        Category::factory()->create([
+            'name' => 'Homme'
+        ]);
+        Category::factory()->create([
+            'name' => 'Femme'
+        ]);
+
+
+        // creation des tailles
+        Size::factory()->create([
+            'name' => 'XS'
+        ]);
+        Size::factory()->create([
+            'name' => 'S'
+        ]);
+        Size::factory()->create([
+            'name' => 'M'
+        ]);
+        Size::factory()->create([
+            'name' => 'L'
+        ]);
+        Size::factory()->create([
+            'name' => 'XL'
+        ]);
+
+        $this->call(ProductTableSeeder::class);
     }
 }

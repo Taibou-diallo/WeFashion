@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('pictures', function (Blueprint $table) {
             $table->id();
             $table->string('link', 100);
-            $table->unsignedBigInteger('product_id');
+            $table->string('title', 100)->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
             $table->timestamps();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });

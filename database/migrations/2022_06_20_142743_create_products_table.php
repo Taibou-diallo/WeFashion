@@ -18,11 +18,11 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->text('description');
-            $table->decimal('price', 5, 2);
+            $table->decimal('price', 8, 2);
             $table->enum('visibility', ['publish', 'no publish']);
             $table->enum('state', ['sale', 'standard']);
             $table->string('reference', 16);
-            $table->unsignedBigInteger('category_id')->nullable(); //cle etranger de la table categorie
+            $table->unsignedBigInteger('category_id')->nullable(); //cle etranger de la table categorie ne peut pas etre nulle
             $table->timestamps();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });

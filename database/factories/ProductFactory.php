@@ -22,13 +22,18 @@ class ProductFactory extends Factory
             'name' => $this->faker->name(),
             'description' => $this->faker->sentence(),
             'name' => $this->faker->name(),
-            'price' => $this->faker->randomFloat(5, 2),
+            'price' => $this->faker->randomFloat(2, 20, 300),
             'visibility' => $this->faker->randomElement([
                 'publish',
                 'no publish'
             ]),
-            'reference' => $this->faker->sentence(),
+            'state' => $this->faker->randomElement([
+                'sale',
+                'standard'
+            ]),
+            'reference' => $this->faker->numerify('ref-####'),
 
+            // 'category_id' => rand(1, 2),
         ];
     }
 }

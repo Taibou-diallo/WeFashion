@@ -20,31 +20,31 @@ class ProductTableSeeder extends Seeder
 
     public function run()
     {
-        // création des categories
-        Category::factory()->create([
-            'name' => 'Homme'
-        ]);
-        Category::factory()->create([
-            'name' => 'Femme'
-        ]);
+        // // création des categories
+        // Category::factory()->create([
+        //     'name' => 'Homme'
+        // ]);
+        // Category::factory()->create([
+        //     'name' => 'Femme'
+        // ]);
 
 
-        // creation des tailles
-        Size::factory()->create([
-            'name' => 'XS'
-        ]);
-        Size::factory()->create([
-            'name' => 'S'
-        ]);
-        Size::factory()->create([
-            'name' => 'M'
-        ]);
-        Size::factory()->create([
-            'name' => 'L'
-        ]);
-        Size::factory()->create([
-            'name' => 'XL'
-        ]);
+        // // creation des tailles
+        // Size::factory()->create([
+        //     'name' => 'XS'
+        // ]);
+        // Size::factory()->create([
+        //     'name' => 'S'
+        // ]);
+        // Size::factory()->create([
+        //     'name' => 'M'
+        // ]);
+        // Size::factory()->create([
+        //     'name' => 'L'
+        // ]);
+        // Size::factory()->create([
+        //     'name' => 'XL'
+        // ]);
 
 
         // suprression des images avant les seeders
@@ -61,11 +61,11 @@ class ProductTableSeeder extends Seeder
             // sauvegarde de l'association
             $product->save();
 
-            $folder = $product->category_id == 1 ? 'homme' : 'femme';
+            $folder = $product->category_id == 1 ? 'hommes' : 'femmes';
 
             // ajout d'image
             $link = Str::random(12) . '.jpg';
-            $file = file_get_contents(public_path('images/' . $folder . '/' . rand(1, 10) . 'jpg')); // flux
+            $file = file_get_contents(public_path('image/' . $folder . '/' . rand(1, 10) . '.jpg'));
             Storage::disk('local')->put($link, $file);
 
             $product->picture()->create([
@@ -78,7 +78,7 @@ class ProductTableSeeder extends Seeder
 
             // Il faut se mettre maintenant en relation avec les auteurs (relation ManyToMany) et attacher les id des auteurs
             // dans la table de liaison.
-            $product->sizes()->attach($sizes); // ici on n'a pas besoin de faire persister c'est automatique dans une relation ManyToMany
+            $product->sizes()->attach($sizes);
         });
     }
 }
