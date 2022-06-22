@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\FrontController;
+use App\Http\Controllers\ProductController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,12 +17,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name("acceuil");
+
+// route de la page d'acceuil
+Route::get('/', [FrontController::class, 'index'])->name('acceuil');
+
+// route page de soldes
+Route::get('/sale', [FrontController::class, 'sale'])->name("sale");
+
+// route de la page homme
+Route::get('/man', [FrontController::class, 'man'])->name("man");
+
+// route de la page femme
+Route::get('/woman', [FrontController::class, 'woman'])->name("woman");
+
+// route de la page produit
+Route::get('/product', [ProductController::class, 'product'])->name("product");
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -13,6 +13,9 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/footers/">
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+
 
 
 
@@ -20,6 +23,8 @@
 
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    {{-- <link href="{{ asset('css/style.css') }}" rel="stylesheet"> --}}
+
 
     <!-- Favicons -->
     <link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
@@ -143,7 +148,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#" style="color:#66EB9A;">WEFASHION</a>
+            <a class="navbar-brand active" href="{{ route('acceuil') }}" style="color:#66EB9A;">WEFASHION</a>
             <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -152,13 +157,13 @@
             <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">SOLDES</a>
+                        <a class="nav-link " aria-current="page" href="{{ route('sale') }}">SOLDES</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">HOMMES</a>
+                        <a class="nav-link" href="{{ route('man') }}">HOMMES</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">FEMMES</a>
+                        <a class="nav-link" href="{{ route('woman') }}">FEMMES</a>
                     </li>
                 </ul>
             </div>
@@ -173,7 +178,7 @@
     </main>
 
 
-    <div class="b-example-divider"></div>
+    {{-- <div class="b-example-divider"></div> --}}
     <div class="container">
         <footer class="py-5">
             <div class="row">
