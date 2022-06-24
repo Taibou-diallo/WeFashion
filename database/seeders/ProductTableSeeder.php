@@ -20,32 +20,6 @@ class ProductTableSeeder extends Seeder
 
     public function run()
     {
-        // // création des categories
-        // Category::factory()->create([
-        //     'name' => 'Homme'
-        // ]);
-        // Category::factory()->create([
-        //     'name' => 'Femme'
-        // ]);
-
-
-        // // creation des tailles
-        // Size::factory()->create([
-        //     'name' => 'XS'
-        // ]);
-        // Size::factory()->create([
-        //     'name' => 'S'
-        // ]);
-        // Size::factory()->create([
-        //     'name' => 'M'
-        // ]);
-        // Size::factory()->create([
-        //     'name' => 'L'
-        // ]);
-        // Size::factory()->create([
-        //     'name' => 'XL'
-        // ]);
-
 
         // suprression des images avant les seeders
         Storage::disk('local')->delete(Storage::allFiles());

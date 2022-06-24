@@ -3,45 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Product;
-use App\Models\Size;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class CategoryController extends Controller
 {
-    protected $paginate = 15;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    // la patie qui affiche tous les apres la connexion de l admin
-    public function admin()
-    {
-
-        $products = Product::paginate($this->paginate);
-
-        return view('back.admin', compact('products'));
-    }
-
-    // la patie qui affiche tous les apres la connexion de l admin dans le crud produits
-
     public function index()
     {
-
-        $products = Product::paginate($this->paginate);
-
-        return view('back.product.index', compact('products'));
-    }
-
-
-    public function category()
-    {
-
-        $products = Product::paginate($this->paginate);
-
-        return view('back.product.category', compact('products'));
+        //
+        $categories = Category::latest()->get();
+        return view('back.category.index', compact('categories'));
     }
 
     /**
@@ -51,11 +26,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $sizes = Size::pluck('name', 'id')->all();
-        $category = Category::pluck('name', 'id')->all();
-        return view('back.product.create', compact('sizes', 'category'));
+        return view('back.category.create');
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -65,9 +37,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product = Product::all();
-        return back()->with("success", "le produit est bien cree");
-        return view('back.product.create', compact('product'));
+        $validated = $request->validate([
+            'name' => 'required|max:100|string',
+        ]);
+
+        Category::create($validated);
+
+        return redirect()->route('category.index')->with('message', 'Category cree avec succes');
     }
 
     /**
@@ -79,10 +55,6 @@ class ProductController extends Controller
     public function show($id)
     {
         //
-
-
-
-
     }
 
     /**
@@ -93,7 +65,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::find($id);
+
+        return view('back.category.create', compact('category'));
     }
 
     /**
@@ -105,7 +79,15 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $validated = $request->validate([
+            'name' => 'required|max:100|string',
+        ]);
+
+        $category = Category::find($id);
+        $category->update($validated);
+
+        return redirect()->route('category.index')->with('message', 'Category a ete modifie');
     }
 
     /**
@@ -116,6 +98,9 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+        $category->delete();
+
+        return redirect()->route('category.index')->with('message', 'Category a ete modifie');
     }
 }

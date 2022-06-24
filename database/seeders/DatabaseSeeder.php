@@ -24,8 +24,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        // $this->call(CategoryTableSeeder::class);
-        // $this->call(SizeTableSeeder::class);
+
         // création des categories
         Category::factory()->create([
             'name' => 'Homme'
@@ -52,6 +51,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'XL'
         ]);
 
+        // appel du seeder 
         $this->call(ProductTableSeeder::class);
     }
 }

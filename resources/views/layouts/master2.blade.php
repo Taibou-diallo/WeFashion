@@ -140,7 +140,7 @@
 
 <body class="bg-light">
 
-    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
+    {{-- <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ route('acceuil') }}" style="color:#66EB9A;">WEFASHION</a>
             <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse"
@@ -164,12 +164,12 @@
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav> --}}
 
     {{-- la partie menu --}}
     <main class="container">
 
-        @yield('contenu')
+        @yield('content')
 
     </main>
 
