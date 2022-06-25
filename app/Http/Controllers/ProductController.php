@@ -16,7 +16,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    // la patie qui affiche tous les apres la connexion de l admin
+    // la methode qui affiche tous les produits apres la connexion de l admin
     public function admin()
     {
 
@@ -25,8 +25,7 @@ class ProductController extends Controller
         return view('back.admin', compact('products'));
     }
 
-    // la patie qui affiche tous les apres la connexion de l admin dans le crud produits
-
+    // la methode qui affiche les produits du CRUD  produit
     public function index()
     {
 
@@ -36,14 +35,6 @@ class ProductController extends Controller
     }
 
 
-    public function category()
-    {
-
-        $products = Product::paginate($this->paginate);
-
-        return view('back.product.category', compact('products'));
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -51,9 +42,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $sizes = Size::pluck('name', 'id')->all();
+        // $sizes = Size::pluck('name', 'size_id')->all();
         $category = Category::pluck('name', 'id')->all();
-        return view('back.product.create', compact('sizes', 'category'));
+        return view('back.product.create', compact('category'));
     }
 
 
@@ -65,9 +56,33 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product = Product::all();
-        return back()->with("success", "le produit est bien cree");
-        return view('back.product.create', compact('product'));
+
+        $validated = $request->validate([
+            'name' => 'required|max:100|string',
+            'description' => 'required',
+            'price' => 'required',
+            'visibilty' => 'required',
+            'state' => 'required',
+            'reference' => 'required',
+            'category' => 'required',
+        ]);
+
+        $image = $request->file('picture');
+
+        if (!empty($image)) {
+            $request->file('picture')->store('images');
+            $link = $request->file('picture')->hashName();
+
+            $request->picture()->create([
+                'link' => $link,
+                'title' => $request->title_image ?? 'Default',
+            ]);
+        }
+
+
+        Product::create($validated);
+
+        return redirect()->route('back.product.index')->with('message', 'Produit cree avec succes');
     }
 
     /**
@@ -91,10 +106,24 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($product)
     {
         //
+
+
+
+        $category = Category::pluck('name', 'id')->all();
+        // $sizes = Size::pluck('name', 'id')->all();
+        // $sizes = [];
+        // foreach ($product->sizes as $size) {
+        //     $sizes[] = $size->id;
+        // }
+
+        return view('back.product.create', compact('product', 'category', 'sizes', 'productSizes'));
     }
+
+
+
 
     /**
      * Update the specified resource in storage.

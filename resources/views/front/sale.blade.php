@@ -2,7 +2,10 @@
 
 @section('contenu')
     <div class="my-3 p-3 bg-body rounded shadow-sm mt-4">
-        <h3 class="border-bottom pb-2 mt-4">liste des produits</h3>
+        <div class=" d-flex justify-content-between  mb-2 mt-4">
+            <h3 class="border-bottom pb-2">Les soldes</h3>
+            {{ $products->links() }}
+        </div>
         <a class="border-bottom pb-2 mt-4   d-flex justify-content-end" href="">resultats</a>
         <div class="row">
             @forelse($products as $product)

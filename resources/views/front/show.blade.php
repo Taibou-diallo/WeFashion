@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('contenu')
+    {{-- affichage detail d'un produit --}}
     <div class="my-3 p-3 bg-body rounded shadow-sm mt-4">
         <div class="row g-4">
             <div class="col-md-4">

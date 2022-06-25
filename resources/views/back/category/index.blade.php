@@ -5,11 +5,11 @@
 
          <x-slot name="header">
              <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                 {{ __('Dashboard Categories') }}
+                 {{ __('Toutes les categories') }}
              </h2>
          </x-slot>
      @section('content')
-         <div class=" d-flex justify-content-between  mb-2 mt-4">
+         <div class=" d-flex justify-content-end mb-2 mt-4">
              <div> <a href="{{ route('category.create') }}" class="btn btn-primary">Nouveau</a></div>
          </div>
          <table class="table table-bordered table-hover ">
@@ -37,7 +37,7 @@
                              <form style="width:65%" method="POST" action="{{ route('category.destroy', $category) }}">
                                  @method('DELETE')
                                  @csrf
-                                 <button type="submit" class="btn btn-danger"
+                                 <button type="submit" class="btn btn-danger" style="background-color:red;"
                                      onclick="return confirm('Voulez vous supprimer cette categorie ??')">
                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                          fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">

@@ -14,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        // la methode qui affiche les categories du CRUD  categorie
         $categories = Category::latest()->get();
         return view('back.category.index', compact('categories'));
     }
