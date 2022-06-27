@@ -67,6 +67,8 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
 
+        // dd($category);
+
         return view('back.category.create', compact('category'));
     }
 
@@ -80,12 +82,16 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
 
+        // dd($request);
         $validated = $request->validate([
             'name' => 'required|max:100|string',
         ]);
 
         $category = Category::find($id);
+
         $category->update($validated);
+        dd($category);
+
 
         return redirect()->route('category.index')->with('message', 'Category a ete modifie');
     }

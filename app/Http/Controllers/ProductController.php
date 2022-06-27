@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Size;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -42,9 +43,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        // $sizes = Size::pluck('name', 'size_id')->all();
-        $category = Category::pluck('name', 'id')->all();
-        return view('back.product.create', compact('category'));
+        $sizes = Size::all();
+        $Productcategories = Category::orderBy('name')->get();
+
+        return view('back.product.create', compact('sizes', 'Productcategories'));
     }
 
 
@@ -59,30 +61,34 @@ class ProductController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|max:100|string',
-            'description' => 'required',
-            'price' => 'required',
-            'visibilty' => 'required',
+            'description' => 'required|max:100|string',
+            'price' => 'required|integer',
+            'vibility' => 'required',
             'state' => 'required',
-            'reference' => 'required',
-            'category' => 'required',
+            'reference' => 'required|max:16',
+            'category_id' => 'required|integer',
+            'picture' => 'required|file',
+            'sizes*' => 'required|max:100|string',
         ]);
-
-        $image = $request->file('picture');
-
-        if (!empty($image)) {
-            $request->file('picture')->store('images');
-            $link = $request->file('picture')->hashName();
-
-            $request->picture()->create([
-                'link' => $link,
-                'title' => $request->title_image ?? 'Default',
-            ]);
-        }
-
 
         Product::create($validated);
 
-        return redirect()->route('back.product.index')->with('message', 'Produit cree avec succes');
+        $product = Product::create($request->all());
+        $product->sizes()->attach($request->sizes);
+        $image = $request->file('picture');
+
+        if (!empty($request->picture)) {
+            // $request->file('picture')->store('images');
+            $link = $request->store('images');
+            $image = substr($link, strrpos($link, '/') + 1);
+
+            $product->picture()->create([
+                'link' => $image,
+                'title' => $request->title_image ?? 'Default'
+            ]);
+        }
+
+        return redirect()->route('product.index')->with('message', 'Produit crée avec succés');
     }
 
     /**
@@ -96,8 +102,6 @@ class ProductController extends Controller
         //
 
 
-
-
     }
 
     /**
@@ -106,20 +110,24 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($product)
+    public function edit($id)
     {
         //
 
+        $product = Product::find($id);
+        $sizes = Size::all();
+        $Productcategories = Category::orderBy('name')->get();
 
 
-        $category = Category::pluck('name', 'id')->all();
-        // $sizes = Size::pluck('name', 'id')->all();
-        // $sizes = [];
-        // foreach ($product->sizes as $size) {
-        //     $sizes[] = $size->id;
-        // }
+        $checkSizes = [];
 
-        return view('back.product.create', compact('product', 'category', 'sizes', 'productSizes'));
+        foreach ($product->$sizes as $size) {
+            $checkSizes[] = $size->id;
+        }
+
+
+
+        return view('back.product.edit', compact('product', 'checkSizes', 'sizes', '$Productcategories'));
     }
 
 
@@ -132,10 +140,33 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
         //
+
+        $oldImage = $product->picture->link;
+
+        $product->update($request->all());
+        $product->sizes()->sync($request->sizes);
+
+        $product->picture()->update(['title' => $request->title_image]);
+
+        if (!empty($request->picture)) {
+            $link = $request->picture->store('images');
+            $image = substr($link, strrpos($link, '/') + 1);
+
+            Storage::delete('images/' . $oldImage);
+
+            $product->picture()->update([
+                'link' => $image,
+
+            ]);
+        }
+
+
+        return redirect()->route('product.index')->with('message', 'Modification reussi avec succés');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -143,8 +174,15 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        //
+        // Suprression d'un produit
+
+        if ($product->picture) {
+            Storage::disk('local')->delete($product->picture->link);
+        }
+        $product->delete();
+
+        return redirect()->back()->with('message', 'suppression reussi avec succés');
     }
 }

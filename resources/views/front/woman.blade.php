@@ -6,7 +6,8 @@
             <h3 class="border-bottom pb-2">Style Vestimentaire Pour Femme</h3>
             {{ $products->links() }}
         </div>
-        <a class="border-bottom pb-2 mt-4   d-flex justify-content-end" href="">resultats</a>
+        <a class="border-bottom pb-2 mt-4   d-flex justify-content-end" href=""> {{ $products->total() }}
+            resultats</a>
         <div class="row">
             @forelse($products as $product)
                 <div class="col-md-4 col-sm-6 mb-4">
